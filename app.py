@@ -10,8 +10,9 @@ app = Flask(__name__)
 def home():
 	return render_template('home.html')
 
-@app.route('/predict',methods=['POST'])
+@app.route('/predict',methods=['GET', 'POST'])
 def predict():
+    
 	df= pd.read_csv("spam.csv", encoding="latin-1")
 	df.drop(['Unnamed: 2', 'Unnamed: 3', 'Unnamed: 4'], axis=1, inplace=True)
 	# Features and Labels
@@ -40,7 +41,13 @@ def predict():
 		data = [message]
 		vect = cv.transform(data).toarray()
 		my_prediction = clf.predict(vect)
-	return render_template('result.html',prediction = my_prediction)
+	# return render_template('result.html',prediction = my_prediction)
+	return jsonify(
+        json.dumps({
+            "code": "SUCCESS",
+            "prediction": my_prediction
+        })
+    )
 
 
 
