@@ -8,15 +8,9 @@ app = Flask(__name__)
 
 @app.route('/', methods=["GET", "POST"])
 def home():
-	# return render_template('home.html')
- 	return jsonify(
-        json.dumps({
-            "code": "SUCCESS",
-            "message": "Hello World!"
-        })
-    )
+	return render_template('home.html')
 
-@app.route('/predict',methods=['POST'])
+@app.route('/predict',methods=['GET', 'POST'])
 def predict():
     return jsonify(
         json.dumps({
